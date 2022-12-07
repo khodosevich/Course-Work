@@ -1,2 +1,2 @@
 # Course work C++(demo version)
-#3 term
+3 term
