@@ -1,10 +1,6 @@
 #include <iostream>
-#include <string>
-#include "Client.h"
-#include "Tarif.h"
 #include "User.h"
 #include "Admin.h"
-#include "MyException.h"
 using namespace std;
 
 
@@ -28,10 +24,7 @@ int main() {
 
 
         switch (choice) {
-            case 1:{
-                admin.CheckAdmin();
-                break;
-            }
+            case 1:{admin.CheckAdmin();break;}
             case 2:
             {
                 x = 100;
@@ -45,36 +38,20 @@ int main() {
                     cin >> x;
 
                     switch (x) {
-                        case 1:{
-                           user.ForBasicUser();
-                            break;
-                        }
+                        case 1:{user.ForBasicUser();break;}
 
-                        case 2:{
-                            user.ForNewUser();
-                            break;
-                        }
+                        case 2:{user.ForNewUser();break;}
 
-                        case 0:{
-                            x = 0;
-                            break;
-                        }
+                        case 0:{x = 0;break;}
 
-                        default:{
-                            continue;
-                        }
-
+                        default:{continue;}
                     }
                 }
-
                 break;
             }
-            case 0:
-                return 0;
+            case 0: return 0;
 
-            default:{
-                continue;
-            }
+            default:{continue;}
         }
     }
 

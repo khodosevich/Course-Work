@@ -10,6 +10,7 @@
 #include <iomanip>
 #include <vector>
 #include "ConstantsFile.h"
+#include "OtherFunctionality.h"
 using namespace std;
 
 
@@ -21,9 +22,10 @@ private:
     int Age;
     string Pasport;
     string Residence;
-    string NameTarif;
+
     string Number;
     double BalanceAccount;
+    string NameTarif;
 
 public:
     Tarif *tarif;
@@ -45,8 +47,6 @@ public:
 
     void CreateClient(Client &person1) {
 
-        string tarif;
-
         cout << "Creating new client:" << endl;
 
         person1.SetClient();
@@ -63,14 +63,22 @@ public:
 
     }
 
-    void SetClient() {
+    void SetName(){
         cout << "Enter name:";
         cin >> FirstName;
+    }
+
+    void SetLastName(){
         cout << "Enter lastname:";
         cin >> LastName;
+    }
+
+    void SetAge(){
         cout << "Enter age:";
         cin >> Age;
+    }
 
+    void SetPasport(){
         while (1) {
             cout << "Enter ID паспорта:";
             cin >> Pasport;
@@ -81,21 +89,22 @@ public:
                 continue;
             }
         }
+    }
 
+    void SetResidence(){
         cout << "Enter place of residence:";
         cin.ignore();
         getline(cin, Residence);
+    }
 
-        while (1) {
-            cout << "Enter number with code:" << endl;
-            cin >> Number;
-            if ( numberValidation(Number)) {
-                break;
-            }else{
-                continue;
-            }
-        }
+    void SetClient() {
 
+        SetName();
+        SetLastName();
+        SetAge();
+        SetPasport();
+        SetResidence();
+        SetNumber();
     }
 
     void AllTarif(){
@@ -127,7 +136,6 @@ public:
     void setTarif() {
         string tarifName;
         int choice = 100;
-
 
         while (choice != 0) {
 
@@ -178,14 +186,26 @@ public:
         return Pasport;
     }
 
+
     void SetBalance() {
         BalanceAccount -= tarif->Balance();
+    }
+
+    string GetName(){
+        return FirstName;
     }
 
     string GetLastName(){
         return LastName;
     }
 
+    string GetResidence(){
+        return Residence;
+    }
+
+    int GetAge(){
+        return Age;
+    }
 
     void DepositBalance() {
         double summa;
@@ -202,8 +222,16 @@ public:
     }
 
     void SetNumber() {
-        cout << "Enter number with code:" << endl;
-        cin >> Number;
+
+        while (1) {
+            cout << "Enter number with code:" << endl;
+            cin >> Number;
+            if ( numberValidation(Number)) {
+                break;
+            }else{
+                continue;
+            }
+        }
     }
 
     void GetClient() {
@@ -248,169 +276,6 @@ public:
 
         }
         fout.close();
-    }
-
-
-//    void ReadFile() {
-//
-//        Client x;
-//
-//        string Path = "myFiles.txt";
-//
-//        fstream fin;
-//
-//        fin.open(Path, ifstream::in);
-//
-//        while(!(fin.eof())){
-//            fin >> x;
-//            x.GetClient();
-//        }
-//
-//        fin.close();
-//
-//    }
-//
-//    Client ReadFilePasport(){
-//
-//        Client x,y;
-//        string Indificator;
-//
-//        cout << "Enter Pasport:";
-//        cin >> Indificator;
-//
-//        string Path = "myFiles.txt";
-//        fstream fin;
-//        fin.open(Path);
-//
-//        x.PrintViewClient();
-//        while(!(fin.eof())){
-//            fin >> x;
-//            if(!(x.GetPasport().compare(Indificator))){
-//                return x;
-//            }
-//            else{
-//                return y;
-//            }
-//        }
-//        fin.close();
-//
-//    }
-
-
-    void PrintViewClient(){
-        cout
-                << "-----------------------------------------------------------------------------------------------------------------"
-                << endl;
-        cout
-                << "|           Client          | Age |  Pasport  |        Residence         |     Number    |   Tarif   |  Balance |"
-                << endl;
-        cout
-                << "-----------------------------------------------------------------------------------------------------------------"
-                << endl;
-
-    }
-
-
-     bool numberValidation(string number) {
-
-
-            if (number.length() != MobileNumberLength) {
-
-                cout << endl << WrongNumberLength << endl;
-
-                return false;
-            }
-
-            string countryCode = "0000";
-
-            for (int i = 0; i < 4; i++)
-                countryCode[i] = number[i];
-
-            if (countryCode != ValidCountryCode) {
-
-                cout << endl << WrongCountryCode << endl;
-
-                return false;
-            }
-
-            string operatorCode = "00";
-            operatorCode[0] = number[4];
-            operatorCode[1] = number[5];
-
-            bool validOperatorCodeFlag = false;
-
-            for (int n = 0; n < sizeof(validCodes)/sizeof(string); n++) {
-                if (operatorCode == validCodes[n]) {
-                    validOperatorCodeFlag = true;
-                    break;
-                }
-            }
-
-
-            if (!validOperatorCodeFlag) {
-
-                cout << endl << WrongOperatorCode << endl;
-
-
-                return false;
-            }
-
-            for (int n = 6; n < number.length(); n++) {
-                if (number[n] > '9' || number[n] < '0') {
-
-                    cout << endl << WrongSymbols << endl;
-
-                    return false;
-                }
-            }
-
-            return true;
-    }
-
-
-    bool pasportValidation(string pasportID) {
-
-
-        if (pasportID.length() != PasportLength) {
-
-            cout << endl << WrongPasportLength << endl;
-
-            return false;
-        }
-
-        string countrySerial = "00";
-
-        for (int i = 0; i < 2; i++)
-            countrySerial[i] = pasportID[i];
-
-        bool validOperatorSerialFlag = false;
-
-        for (int n = 0; n < sizeof(ValidCountrySerial)/sizeof(string); n++) {
-
-            if (countrySerial == ValidCountrySerial[n]) {
-                validOperatorSerialFlag = true;
-                break;
-            }
-        }
-
-        if (!validOperatorSerialFlag) {
-
-            cout << endl << WrongCountrySerial << endl;
-
-
-            return false;
-        }
-
-        for (int n = 2; n < pasportID.length(); n++) {
-            if (pasportID[n] > '9' || pasportID[n] < '0') {
-
-                cout << endl << WrongSymbols << endl;
-
-                return false;
-            }
-        }
-
-        return true;
     }
 
     friend ostream& operator << (std::ostream &os, Client &p);

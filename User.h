@@ -28,6 +28,7 @@ public:
             cout << "5 - view balance" << endl;
             cout << "6 - deposit balance" << endl;
             cout << "7 - save change in base and go to main menu" << endl;
+            cout << "0 - main menu" << endl;
 
 
             try{
@@ -41,14 +42,11 @@ public:
 
             switch (choice) {
 
-                case 1:{
-                    person1.CreateClient(person1);
-                    break;
-                }
+                case 1:{person1.CreateClient(person1);break;}
 
                 case 2:
                 {
-                    person1.PrintViewClient();
+                    PrintViewClient();
                     person1.GetClient();
                     break;
                 }
@@ -60,21 +58,11 @@ public:
                     break;
                 }
 
-                case 4:
-                {
-                    person1.SetNumber();
-                    break;
-                }
+                case 4:{person1.SetNumber();break;}
 
-                case 5:{
-                    cout << person1.GetBalance() << endl;
-                    break;
-                }
+                case 5:{cout << person1.GetBalance() << endl; break;}
 
-                case 6:{
-                    person1.DepositBalance();
-                    break;
-                }
+                case 6:{person1.DepositBalance();break;}
 
                 case 7:{
                     person1.WriteFile(person1);
@@ -82,19 +70,13 @@ public:
                     break;
                 }
 
-                case 0:{
-                    choice = 0;
-                    break;
-                }
+                case 0:{choice = 0;break;}
 
-                default:{
-                    continue;
-                }
+                default:{continue;}
             }
         }
 
     }
-
 
     void ForBasicUser(){
 

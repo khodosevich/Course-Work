@@ -13,6 +13,9 @@ private:
 
 public:
 
+    Admin(){}
+    ~Admin(){}
+
     void CheckAdmin(){
 
         string _password;
@@ -51,38 +54,18 @@ public:
             switch (choice) {
 
                 case 1: {
-                    person.PrintViewClient();
+                    PrintViewClient();
                     ReadFileAdmin();
                     break;
                 }
-                case 2: {
-                    DeleteFileAdmin();
-                    break;
-                }
-                case 3:{
-                    ReadFileAdminPasport();
-                    break;
-                }
+                case 2: {DeleteFileAdmin();break;}
+                case 3:{ReadFileAdminPasport();break;}
+                case 4:{ReadFileAdminNumber();break;}
+                case 5:{ReadFileAdminLastName();break;}
 
-                case 4:{
-                    ReadFileAdminNumber();
-                    break;
-                }
-                case 5:{
-                    ReadFileAdminLastName();
-                    break;
-                }
+                case 0:{choice = 0;break;}
 
-                case 0:{
-                    choice = 0;
-                    break;
-                }
-
-
-                default:{
-                    continue;
-                }
-
+                default:{continue;}
             }
         }
     }
@@ -104,7 +87,6 @@ public:
         }
 
         fin.close();
-
     }
 
 
@@ -120,7 +102,7 @@ public:
         fstream fin;
         fin.open(Path);
 
-        x.PrintViewClient();
+        PrintViewClient();
         while(!(fin.eof())){
             fin >> x;
             if(!(x.GetPasport().compare(Indificator))){
@@ -143,7 +125,7 @@ public:
         fstream fin;
         fin.open(Path);
 
-        x.PrintViewClient();
+        PrintViewClient();
         while(!(fin.eof())){
             fin >> x;
             if(!(x.GetNumber().compare(Indificator))){
@@ -166,7 +148,7 @@ public:
         fstream fin;
         fin.open(Path);
 
-        x.PrintViewClient();
+        PrintViewClient();
         while(!(fin.eof())){
             fin >> x;
             if(!(x.GetLastName().compare(Indificator))){
@@ -179,9 +161,6 @@ public:
 
 
     void DeleteFileAdmin(){
-
-        rewind(stdin);
-        cin.clear();
 
         vector<Client> persons;
 

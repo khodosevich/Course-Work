@@ -4,13 +4,16 @@
 
 class StudentTarif : public Tarif{
 
-private:
-    string NameTarif = "Student";
-    double Price = 20;
-    int minutes = 75;
-    int internet = 25000;
-
 public:
+
+    StudentTarif(){
+        NameTarif = "Student";
+        Price = 20;
+        minutes = 75;
+        internet = 25000;
+    }
+
+    ~StudentTarif(){}
 
     string NameOfTarif() override{
         return NameTarif;

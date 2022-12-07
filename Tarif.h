@@ -6,6 +6,12 @@ using namespace std;
 class Tarif
 {
 
+protected:
+    string NameTarif;
+    double Price;
+    int minutes;
+    int internet;
+
 public:
 
     string virtual NameOfTarif() = 0;

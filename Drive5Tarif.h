@@ -4,13 +4,17 @@
 
 class Drive5Tarif : public Tarif{
 
-private:
-    string NameTarif = "Drive5";
-    double Price = 15;
-    int minutes = 50;
-    int internet = 5000;
+
+
 
 public:
+
+    Drive5Tarif(){
+         NameTarif = "Drive5";
+         Price = 15;
+         minutes = 50;
+         internet = 5000;
+    }
 
     string NameOfTarif() override{
         return NameTarif;

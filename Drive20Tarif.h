@@ -4,13 +4,15 @@
 
 class Drive20Tarif : public Tarif
 {
-private:
-    string NameTarif = "Drive20";
-    double Price = 23.59;
-    int minutes = 200;
-    int internet = 20000;
 
 public:
+
+    Drive20Tarif(){
+         NameTarif = "Drive20";
+         Price = 23.59;
+         minutes = 200;
+         internet = 20000;
+    }
 
     string NameOfTarif() override{
         return NameTarif;
