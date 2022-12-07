@@ -61,8 +61,7 @@ int main() {
                         }
 
                         default:{
-                           x = 0;
-                           break;
+                            continue;
                         }
 
                     }
@@ -74,7 +73,7 @@ int main() {
                 return 0;
 
             default:{
-                return 0;
+                continue;
             }
         }
     }

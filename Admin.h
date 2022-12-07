@@ -13,8 +13,6 @@ private:
 
 public:
 
-
-
     void CheckAdmin(){
 
         string _password;
@@ -75,8 +73,14 @@ public:
                     break;
                 }
 
-                default:{
+                case 0:{
+                    choice = 0;
                     break;
+                }
+
+
+                default:{
+                    continue;
                 }
 
             }
@@ -214,6 +218,7 @@ public:
 
         fout.close();
 
+        persons.clear();
     }
 
 };

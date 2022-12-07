@@ -9,6 +9,7 @@
 #include <fstream>
 #include <iomanip>
 #include <vector>
+#include "ConstantsFile.h"
 using namespace std;
 
 
@@ -62,30 +63,6 @@ public:
 
     }
 
-    void AllTarif(){
-
-        cout << "Все тарифы нашей компании:" << endl;
-        Tarif* info;
-        cout << endl << endl;
-        info = new Drive5Tarif;
-        cout << "Тариф " << info->NameOfTarif() << endl;
-        cout <<"Количество минут: " <<info->MinBalance()  <<"\tКоличество интернета: " << info->MbBalance() << endl << endl << endl;
-        info = new PlusTarif;
-        cout << "Тариф " <<info->NameOfTarif()<< endl;
-        cout <<"Количество минут: "  << info->MinBalance()  <<"\tКоличество интернета: " << info->MbBalance() << endl << endl << endl;
-        info = new Drive20Tarif;
-        cout << "Тариф " <<info->NameOfTarif() << endl;
-        cout <<"Количество минут: "  <<info->MinBalance()  <<"\tКоличество интернета: " << info->MbBalance() << endl << endl << endl;
-
-        info = new StudentTarif;
-        cout << "Тариф "<< info->NameOfTarif() << endl;
-        cout <<"Количество минут: "  <<info->MinBalance()  <<"\tКоличество интернета: " << info->MbBalance() << endl << endl << endl;
-
-        info = new PensionerTarif;
-        cout << "Тариф "<<info->NameOfTarif() << endl;
-        cout <<"Количество минут: "  <<info->MinBalance()  <<"\tКоличество интернета: " << info->MbBalance() << endl << endl << endl;
-    }
-
     void SetClient() {
         cout << "Enter name:";
         cin >> FirstName;
@@ -93,15 +70,59 @@ public:
         cin >> LastName;
         cout << "Enter age:";
         cin >> Age;
-        cout << "Enter ID паспорта:";
-        cin >> Pasport;
+
+        while (1) {
+            cout << "Enter ID паспорта:";
+            cin >> Pasport;
+
+            if (pasportValidation(Pasport)) {
+                break;
+            }else{
+                continue;
+            }
+        }
+
         cout << "Enter place of residence:";
         cin.ignore();
         getline(cin, Residence);
-        cout << "Enter number with code:" << endl;
-        cin >> Number;
+
+        while (1) {
+            cout << "Enter number with code:" << endl;
+            cin >> Number;
+            if ( numberValidation(Number)) {
+                break;
+            }else{
+                continue;
+            }
+        }
 
     }
+
+    void AllTarif(){
+
+        cout << "Tarifs of own company:" << endl;
+        Tarif* info;
+        cout << endl << endl;
+        info = new Drive5Tarif;
+        cout << "Tarif " << info->NameOfTarif() << endl;
+        cout <<"Minutes amount: " <<info->MinBalance()  <<"\tInternet amount: " << info->MbBalance() << endl << endl << endl;
+        info = new PlusTarif;
+        cout << "Tarif " <<info->NameOfTarif()<< endl;
+        cout <<"Minutes amount: "  << info->MinBalance()  <<"\tInternet amount: " << info->MbBalance() << endl << endl << endl;
+        info = new Drive20Tarif;
+        cout << "Tarif " <<info->NameOfTarif() << endl;
+        cout <<"Minutes amount: "  <<info->MinBalance()  <<"\tInternet amount: " << info->MbBalance() << endl << endl << endl;
+
+        info = new StudentTarif;
+        cout << "Tarif "<< info->NameOfTarif() << endl;
+        cout <<"Minutes amount: "  <<info->MinBalance()  <<"\tInternet amount: " << info->MbBalance() << endl << endl << endl;
+
+        info = new PensionerTarif;
+        cout << "Tarif "<<info->NameOfTarif() << endl;
+        cout <<"Minutes amount: "  <<info->MinBalance()  <<"\tInternet amount: " << info->MbBalance() << endl << endl << endl;
+    }
+
+
 
     void setTarif() {
         string tarifName;
@@ -191,13 +212,13 @@ public:
                 << "| " << setw(26) << left << this->FirstName + " " + this->LastName
                 << "| " << setw(4) << left << this->Age
                 << "| " << setw(10) << left << this->Pasport
-                << "| " << setw(20) << left << this->Residence
+                << "| " << setw(25) << left << this->Residence
                 << "| " << setw(14) << left << this->Number
                 << "| " << setw(10) << left << this->NameTarif
                 << "| " << setw(9) << left << this->BalanceAccount << "|" <<
                 endl;
         cout
-                << "------------------------------------------------------------------------------------------------------------"
+                << "-----------------------------------------------------------------------------------------------------------------"
                 << endl;
 
     }
@@ -230,158 +251,167 @@ public:
     }
 
 
-    void ReadFile() {
-
-        Client x;
-
-        string Path = "myFiles.txt";
-
-        fstream fin;
-
-        fin.open(Path, ifstream::in);
-
-        while(!(fin.eof())){
-            fin >> x;
-            x.GetClient();
-        }
-
-        fin.close();
-
-    }
-
-    Client ReadFilePasport(){
-
-        Client x,y;
-        string Indificator;
-
-        cout << "Enter Pasport:";
-        cin >> Indificator;
-
-        string Path = "myFiles.txt";
-        fstream fin;
-        fin.open(Path);
-
-        x.PrintViewClient();
-        while(!(fin.eof())){
-            fin >> x;
-            if(!(x.GetPasport().compare(Indificator))){
-                return x;
-            }
-            else{
-                return y;
-            }
-        }
-        fin.close();
-
-    }
+//    void ReadFile() {
+//
+//        Client x;
+//
+//        string Path = "myFiles.txt";
+//
+//        fstream fin;
+//
+//        fin.open(Path, ifstream::in);
+//
+//        while(!(fin.eof())){
+//            fin >> x;
+//            x.GetClient();
+//        }
+//
+//        fin.close();
+//
+//    }
+//
+//    Client ReadFilePasport(){
+//
+//        Client x,y;
+//        string Indificator;
+//
+//        cout << "Enter Pasport:";
+//        cin >> Indificator;
+//
+//        string Path = "myFiles.txt";
+//        fstream fin;
+//        fin.open(Path);
+//
+//        x.PrintViewClient();
+//        while(!(fin.eof())){
+//            fin >> x;
+//            if(!(x.GetPasport().compare(Indificator))){
+//                return x;
+//            }
+//            else{
+//                return y;
+//            }
+//        }
+//        fin.close();
+//
+//    }
 
 
     void PrintViewClient(){
         cout
-                << "------------------------------------------------------------------------------------------------------------"
+                << "-----------------------------------------------------------------------------------------------------------------"
                 << endl;
         cout
-                << "|           Client          | Age |  Pasport  |      Residence      |     Number    |   Tarif   |  Balance |"
+                << "|           Client          | Age |  Pasport  |        Residence         |     Number    |   Tarif   |  Balance |"
                 << endl;
         cout
-                << "------------------------------------------------------------------------------------------------------------"
+                << "-----------------------------------------------------------------------------------------------------------------"
                 << endl;
 
     }
 
 
-//    bool numberValidation(string number, string phoneType) {
-//           if (phoneType == "mobile") {
-//            if (number.length() != MobileNumberLength) {
-//                setRedTextColor();
-//                cout << endl << WrongNumberLength << endl;
-//                resetTextColor();
-//
-//                return false;
-//            }
-//
-//            string countryCode = "0000";
-//
-//            for (int i = 0; i < 4; i++)
-//                countryCode[i] = number[i];
-//
-//            if (countryCode != ValidCountryCode) {
-//                setRedTextColor();
-//                cout << endl << WrongCountryCode << endl;
-//                resetTextColor();
-//
-//                return false;
-//            }
-//
-//            string operatorCode = "00";
-//            operatorCode[0] = number[4];
-//            operatorCode[1] = number[5];
-//
-//            bool validOperatorCodeFlag = false;
-//
-//            for (int n = 0; n < sizeof(validCodes)/sizeof(string); n++) {
-//                if (operatorCode == validCodes[n]) {
-//                    validOperatorCodeFlag = true;
-//                    break;
-//                }
-//            }
-//
-//            if (!validOperatorCodeFlag) {
-//                setRedTextColor();
-//                cout << endl << WrongOperatorCode << endl;
-//                resetTextColor();
-//
-//                return false;
-//            }
-//
-//            for (int n = 6; n < number.length(); n++) {
-//                if (number[n] > '9' || number[n] < '0') {
-//                    setRedTextColor();
-//                    cout << endl << WrongSymbols << endl;
-//                    resetTextColor();
-//
-//                    return false;
-//                }
-//            }
-//
-//            return true;
-//        }
-//        else {
-//            if (number.length() != HomePhoneNumberLength) {
-//                setRedTextColor();
-//                cout << endl << WrongNumberLength << endl;
-//                cout << "Valid number is " << HomePhoneNumberTemplate << endl;
-//                resetTextColor();
-//
-//                return false;
-//            }
-//            if (
-//                    !isSymbolDigit(number[0]) ||
-//                    !isSymbolDigit(number[1]) ||
-//                    !isSymbolDigit(number[3]) ||
-//                    !isSymbolDigit(number[4]) ||
-//                    !isSymbolDigit(number[6]) ||
-//                    !isSymbolDigit(number[7])) {
-//                setRedTextColor();
-//                cout << NotValidNumber << endl;
-//                cout << "Valid number is " << HomePhoneNumberTemplate << endl << endl;
-//                resetTextColor();
-//
-//                return false;
-//            }
-//
-//            if (number[2] != '-' || number[5] != '-') {
-//                setRedTextColor();
-//                cout << endl << NotValidNumber << endl;
-//
-//                cout << "Valid number is " << HomePhoneNumberTemplate << endl;
-//                resetTextColor();
-//
-//                return false;
-//            }
-//        }
-//    }
+     bool numberValidation(string number) {
 
+
+            if (number.length() != MobileNumberLength) {
+
+                cout << endl << WrongNumberLength << endl;
+
+                return false;
+            }
+
+            string countryCode = "0000";
+
+            for (int i = 0; i < 4; i++)
+                countryCode[i] = number[i];
+
+            if (countryCode != ValidCountryCode) {
+
+                cout << endl << WrongCountryCode << endl;
+
+                return false;
+            }
+
+            string operatorCode = "00";
+            operatorCode[0] = number[4];
+            operatorCode[1] = number[5];
+
+            bool validOperatorCodeFlag = false;
+
+            for (int n = 0; n < sizeof(validCodes)/sizeof(string); n++) {
+                if (operatorCode == validCodes[n]) {
+                    validOperatorCodeFlag = true;
+                    break;
+                }
+            }
+
+
+            if (!validOperatorCodeFlag) {
+
+                cout << endl << WrongOperatorCode << endl;
+
+
+                return false;
+            }
+
+            for (int n = 6; n < number.length(); n++) {
+                if (number[n] > '9' || number[n] < '0') {
+
+                    cout << endl << WrongSymbols << endl;
+
+                    return false;
+                }
+            }
+
+            return true;
+    }
+
+
+    bool pasportValidation(string pasportID) {
+
+
+        if (pasportID.length() != PasportLength) {
+
+            cout << endl << WrongPasportLength << endl;
+
+            return false;
+        }
+
+        string countrySerial = "00";
+
+        for (int i = 0; i < 2; i++)
+            countrySerial[i] = pasportID[i];
+
+        bool validOperatorSerialFlag = false;
+
+        for (int n = 0; n < sizeof(ValidCountrySerial)/sizeof(string); n++) {
+
+            if (countrySerial == ValidCountrySerial[n]) {
+                validOperatorSerialFlag = true;
+                break;
+            }
+        }
+
+        if (!validOperatorSerialFlag) {
+
+            cout << endl << WrongCountrySerial << endl;
+
+
+            return false;
+        }
+
+        for (int n = 2; n < pasportID.length(); n++) {
+            if (pasportID[n] > '9' || pasportID[n] < '0') {
+
+                cout << endl << WrongSymbols << endl;
+
+                return false;
+            }
+        }
+
+        return true;
+    }
 
     friend ostream& operator << (std::ostream &os, Client &p);
     friend istream& operator >> (std::istream& in, Client& p);

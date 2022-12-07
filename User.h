@@ -12,6 +12,7 @@ class User: public Client{
 public:
 
     User(){}
+    ~User(){}
 
     void ForNewUser(){
 
@@ -81,8 +82,13 @@ public:
                     break;
                 }
 
-                default:{
+                case 0:{
+                    choice = 0;
                     break;
+                }
+
+                default:{
+                    continue;
                 }
             }
         }
@@ -96,9 +102,11 @@ public:
         vector<Client> persons = LoadPeopleInVector();
 
         string PasportID;
+        Client x;
         int index;
+        int choice = 100;
 
-        cout << "Enter your pasport ID:" << endl;
+        cout << "Enter your pasport ID:";
         cin >> PasportID;
 
         for (int i = 0; i < persons.size(); ++i) {
@@ -107,7 +115,16 @@ public:
             }
         }
 
-        int choice = 100;
+        if(!(persons[index].GetPasport().compare(PasportID))){
+            cout << "You can continue!" << endl;
+            PrintViewClient();
+            persons[index].GetClient();
+        }else{
+            cout << "You not in base!" << endl;
+            choice = 0;
+        }
+
+
 
 
         while (choice != 0){
@@ -166,16 +183,23 @@ public:
 
                 case 7:{
                     DeleteThisPerson(persons[index]);
-                    break;
-                }
-
-                default:{
                     choice = 0;
                     break;
                 }
 
+                case 0:{
+                    choice = 0;
+                    break;
+                };
+
+                default:{
+                    continue;
+                }
+
             }
         }
+
+        persons.clear();
 
     }
 
@@ -198,7 +222,7 @@ public:
         }
 
         fout.close();
-
+        persons.clear();
     }
 
     vector<Client> LoadPeopleInVector(){
@@ -218,6 +242,7 @@ public:
         fin.close();
 
         return persons;
+
     }
 
     void WtiteFilesPersons(vector<Client> persons){
@@ -235,7 +260,7 @@ public:
         }
 
         fin.close();
-
+        persons.clear();
     }
 
 
