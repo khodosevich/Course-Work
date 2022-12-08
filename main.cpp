@@ -1,6 +1,7 @@
 #include <iostream>
 #include "User.h"
 #include "Admin.h"
+#include "InCorrectIntInput.h"
 using namespace std;
 
 
@@ -14,29 +15,58 @@ int main() {
 
     while(choice != 0){
 
-        cout << endl  << "Menu for:" << endl;
-        cout << "1 - admin" << endl;
-        cout << "2 - user" << endl;
-        cout << "0 - end of program" << endl;
+
+        while(1) {
+            cout << endl  << "Menu for:" << endl;
+            cout << "1 - admin" << endl;
+            cout << "2 - user" << endl;
+            cout << "0 - end of program" << endl;
 
 
-        cin >> choice;
+            try {
+                if (!(cin >> choice))
+                    throw InCorrectIntInput("Sorry, enter int!");
+                break;
+            }
 
+
+            catch (InCorrectIntInput ex) {
+                ex.show();
+                rewind(stdin);
+                cin.clear();
+                continue;
+            }
+        }
 
         switch (choice) {
             case 1:{admin.CheckAdmin();break;}
             case 2:
+
             {
                 x = 100;
                 while(x != 0){
 
-                    cout << endl << endl  << "Menu user:" << endl;
-                    cout << "1 - older client" << endl;
-                    cout << "2 - create new client" << endl;
-                    cout << "0 - main menu" << endl;
 
-                    cin >> x;
+                    while(1) {
 
+                        cout << endl << endl << "Menu user:" << endl;
+                        cout << "1 - client" << endl;
+                        cout << "2 - create new client" << endl;
+                        cout << "0 - main menu" << endl;
+
+                        try {
+                            if (!(cin >> x))
+                                throw InCorrectIntInput("Sorry, enter int!");
+                            break;
+                        }
+                        catch (InCorrectIntInput ex){
+                            ex.show();
+                            rewind(stdin);
+                            cin.clear();
+                            continue;
+                        }
+
+                    }
                     switch (x) {
                         case 1:{user.ForBasicUser();break;}
 
@@ -49,7 +79,8 @@ int main() {
                 }
                 break;
             }
-            case 0: return 0;
+            case 0:
+                break;
 
             default:{continue;}
         }

@@ -61,13 +61,6 @@ bool numberValidation(string number) {
 bool pasportValidation(string pasportID) {
 
 
-    if (pasportID.length() != PasportLength) {
-
-        cout << endl << WrongPasportLength << endl;
-
-        return false;
-    }
-
     string countrySerial = "00";
 
     for (int i = 0; i < 2; i++)
@@ -87,9 +80,18 @@ bool pasportValidation(string pasportID) {
 
         cout << endl << WrongCountrySerial << endl;
 
+        return false;
+    }
+
+
+    if (pasportID.length() != PasportLength) {
+
+        cout << endl << WrongPasportLength << endl;
 
         return false;
     }
+
+
 
     for (int n = 2; n < pasportID.length(); n++) {
         if (pasportID[n] > '9' || pasportID[n] < '0') {

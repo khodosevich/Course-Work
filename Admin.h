@@ -4,6 +4,8 @@
 #include "Tarif.h"
 #include "User.h"
 #include <iostream>
+#include "MyException.h"
+#include "InCorrectIntInput.h"
 using namespace std;
 
 class Admin:public User{
@@ -13,8 +15,8 @@ private:
 
 public:
 
-    Admin(){}
-    ~Admin(){}
+    Admin()= default;
+    ~Admin()= default;;
 
     void CheckAdmin(){
 
@@ -28,27 +30,33 @@ public:
 
     }
 
-    void ForAdmin() {
+     void ForAdmin() {
         int choice = 100;
         Client person;
 
         while (choice != 0) {
 
-            cout << "Menu for admin:" << endl;
-            cout << "1 - view all clients" << endl;
-            cout << "2 - Delete client by pasport" << endl;
-            cout << "3 - Find user by ID" << endl;
-            cout << "4 - Find user by Number" << endl;
-            cout << "5 - Find user by Lastname" << endl;
-            cout << "0 - main menu" << endl;
+            while (1) {
+                cout << endl << endl << "Menu for admin:" << endl;
+                cout << "1 - view all clients" << endl;
+                cout << "2 - Delete client by pasport" << endl;
+                cout << "3 - Find user by ID" << endl;
+                cout << "4 - Find user by Number" << endl;
+                cout << "5 - Find user by Lastname" << endl;
+                cout << "6 - Find user by tarif" << endl;
+                cout << "0 - main menu" << endl;
 
-            try{
-                if(!(cin >> choice) )
-                    throw MyException();
-            }
-
-            catch (const MyException& Ex){
-                MyException::TypeErrorInt();
+                try {
+                    if (!(cin >> choice))
+                        throw InCorrectIntInput("Sorry, enter int!");
+                    break;
+                }
+                catch (InCorrectIntInput &ex) {
+                    ex.show();
+                    rewind(stdin);
+                    cin.clear();
+                    continue;
+                }
             }
 
             switch (choice) {
@@ -62,7 +70,7 @@ public:
                 case 3:{ReadFileAdminPasport();break;}
                 case 4:{ReadFileAdminNumber();break;}
                 case 5:{ReadFileAdminLastName();break;}
-
+                case 6:{ReadFileAdminTarif();break;}
                 case 0:{choice = 0;break;}
 
                 default:{continue;}
@@ -71,7 +79,7 @@ public:
     }
 
 
-    void ReadFileAdmin(){
+     void ReadFileAdmin(){
 
         Client x;
 
@@ -89,10 +97,10 @@ public:
         fin.close();
     }
 
+     void ReadFileAdminPasport(){
 
-    void ReadFileAdminPasport(){
-
-        Client x,y;
+        vector<Client> persons;
+        Client x;
         string Indificator;
 
         cout << "Enter Pasport for search:";
@@ -102,20 +110,35 @@ public:
         fstream fin;
         fin.open(Path);
 
-        PrintViewClient();
+
+
         while(!(fin.eof())){
             fin >> x;
-            if(!(x.GetPasport().compare(Indificator))){
-                x.GetClient();
+            if( x.GetPasport() == Indificator){
+                persons.push_back(x);
             }
         }
-        fin.close();
+
+         fin.close();
+
+        if(!persons.empty()){
+            PrintViewClient();
+            for (int i = 0; i < persons.size(); ++i) {
+
+                persons[i].GetClient();
+            }
+        }else{
+            cout << "You are not in base!" << endl;
+        }
+
+        persons.clear();
 
     }
 
-    void ReadFileAdminNumber(){
+     void ReadFileAdminNumber(){
 
-        Client x,y;
+        vector<Client> persons;
+        Client x;
         string Indificator;
 
         cout << "Enter number for search:";
@@ -125,20 +148,35 @@ public:
         fstream fin;
         fin.open(Path);
 
-        PrintViewClient();
+
         while(!(fin.eof())){
             fin >> x;
-            if(!(x.GetNumber().compare(Indificator))){
-                x.GetClient();
+            if(x.GetNumber() == Indificator){
+                persons.push_back(x);
             }
         }
+
         fin.close();
+
+         if(!persons.empty()){
+             PrintViewClient();
+             for (int i = 0; i < persons.size(); ++i) {
+
+
+                 persons[i].GetClient();
+             }
+         }else{
+             cout << "You are not in base!" << endl;
+         }
+
+         persons.clear();
 
     }
 
-    void ReadFileAdminLastName(){
+     void ReadFileAdminLastName(){
 
-        Client x,y;
+        vector<Client> persons;
+        Client x;
         string Indificator;
 
         cout << "Enter lastname for search:";
@@ -148,19 +186,72 @@ public:
         fstream fin;
         fin.open(Path);
 
-        PrintViewClient();
+
+
+
         while(!(fin.eof())){
             fin >> x;
-            if(!(x.GetLastName().compare(Indificator))){
-                x.GetClient();
+            if(x.GetLastName() == Indificator){
+                persons.push_back(x);
             }
         }
+
         fin.close();
+
+         if(!persons.empty()){
+             PrintViewClient();
+             for (int i = 0; i < persons.size(); ++i) {
+
+                 persons[i].GetClient();
+             }
+         }else{
+             cout << "You are not in base!" << endl;
+         }
+
+         persons.clear();
 
     }
 
+    void ReadFileAdminTarif(){
 
-    void DeleteFileAdmin(){
+        vector<Client> persons;
+        Client x;
+        string Indificator;
+
+        cout << "Enter tarif for search:";
+        cin >> Indificator;
+
+        string Path = "myFiles.txt";
+        fstream fin;
+        fin.open(Path);
+
+
+
+
+        while(!(fin.eof())){
+            fin >> x;
+            if(x.GetTarif() == Indificator){
+                persons.push_back(x);
+            }
+        }
+
+        fin.close();
+
+        if(!persons.empty()){
+            PrintViewClient();
+            for (int i = 0; i < persons.size(); ++i) {
+
+                persons[i].GetClient();
+            }
+        }else{
+            cout<< endl << endl << "Are not this tarif in base!" << endl << endl;
+        }
+
+        persons.clear();
+
+    }
+
+     void DeleteFileAdmin(){
 
         vector<Client> persons;
 
@@ -176,7 +267,7 @@ public:
 
         while(!(fin.eof())){
             fin >> x;
-            if(!(x.GetPasport().compare(PasportID))){
+            if(x.GetPasport() == PasportID){
                 continue;
             }else{
                 persons.push_back(x);

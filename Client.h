@@ -11,6 +11,8 @@
 #include <vector>
 #include "ConstantsFile.h"
 #include "OtherFunctionality.h"
+#include "InCorrectStringInput.h"
+#include "InCorrectIntInput.h"
 using namespace std;
 
 
@@ -22,13 +24,12 @@ private:
     int Age;
     string Pasport;
     string Residence;
-
     string Number;
     double BalanceAccount;
     string NameTarif;
 
 public:
-    Tarif *tarif;
+    Tarif *tarif{};
 
 
     Client() {
@@ -42,12 +43,12 @@ public:
         BalanceAccount = 0;
     }
 
-    ~Client() {}
+    ~Client() = default;
 
 
     void CreateClient(Client &person1) {
 
-        cout << "Creating new client:" << endl;
+        cout<< endl << "Creating new client:" << endl;
 
         person1.SetClient();
 
@@ -60,31 +61,113 @@ public:
             person1.setTarif();
             break;
         }
+        SetBalance();
 
     }
 
     void SetName(){
+
+
+    while(true) {
+
         cout << "Enter name:";
         cin >> FirstName;
+
+        try {
+
+            for (int i = 0; i < FirstName.length(); i++) {
+
+                if (FirstName[i] >= 48 && FirstName[i] <= 57)
+                    throw InCorrectStringInput("Entered number!");
+
+                if (FirstName[i] == ' ') {
+                    throw InCorrectStringInput("Enter without space!");
+                }
+            }
+            break;
+        }
+        catch (InCorrectStringInput ex) {
+            ex.show();
+            continue;
+        }
+
+    }
+
     }
 
     void SetLastName(){
-        cout << "Enter lastname:";
-        cin >> LastName;
+
+        while(true) {
+
+            cout << "Enter Lastname:";
+            cin >> LastName;
+
+            try {
+                for (int i = 0; i < LastName.length(); i++) {
+                    if (LastName[i] >= 48 && LastName[i] <= 57)
+                        throw InCorrectStringInput("Entered number!");
+                    if (LastName[i] == ' ') {
+                        throw InCorrectStringInput("Enter without space!");
+                    }
+                }
+                break;
+            }
+            catch (InCorrectStringInput ex) {
+                ex.show();
+                continue;
+            }
+
+        }
+
     }
 
     void SetAge(){
-        cout << "Enter age:";
-        cin >> Age;
+
+
+        while(true){
+
+
+            while(true) {
+                cout << "Enter age:";
+
+                try{
+                    if(!(  cin >> Age ))
+                        throw InCorrectIntInput("Sorry, enter int!");
+                    break;
+                }
+                catch(InCorrectIntInput &ex){
+                    ex.show();
+                    rewind(stdin);
+                    cin.clear();
+                    continue;
+                }
+
+            }
+
+            if(Age <= 0){
+                cout << "You are entered negative age. \nRepeat again!" << endl;
+                continue;
+            }else if(Age > 100){
+                cout << "You are entered so big age. \nRepeat again!" << endl;
+                continue;
+            }else{
+                break;
+            }
+
+        }
+
     }
 
     void SetPasport(){
-        while (1) {
-            cout << "Enter ID паспорта:";
+
+        cout << endl << CorrectPasport << endl;
+        while (true) {
+            cout << "Enter ID pasport:";
             cin >> Pasport;
 
             if (pasportValidation(Pasport)) {
-                break;
+                if(CheckPasportInBase(Pasport))
+                     break;
             }else{
                 continue;
             }
@@ -92,10 +175,104 @@ public:
     }
 
     void SetResidence(){
-        cout << "Enter place of residence:";
-        cin.ignore();
-        getline(cin, Residence);
+
+        while(true) {
+            cout << "Enter place of residence:";
+
+            cin.ignore();//не замечает пробелов но в файл записывать не оч
+            getline(cin, Residence);
+
+            try {
+                for (int i = 0; i < Residence.length(); ++i) {
+                    if(Residence[i] == ' ')
+                        throw InCorrectStringInput("Enter without space!");
+//                    if (Residence[i] >= 48 && Residence[i] <= 57)
+//                        throw InCorrectStringInput("Entered number!");
+                    if(Residence.length() > 25)
+                        throw InCorrectStringInput("So long Residence. Max length is 25!");
+                }
+                break;
+            }
+
+            catch (InCorrectStringInput &ex){
+                ex.show();
+            }
+
+
+        }
+
+
     }
+
+    void SetNumber() {
+
+        cout << endl <<"Correct number :" << endl << CorrectNumber << endl;
+
+        while (true) {
+            cout << "Enter number with code:" << endl;
+            cin >> Number;
+            if ( numberValidation(Number)) {
+                if(CheckNumberInBase(Number))
+                    break;
+            }else{
+                continue;
+            }
+        }
+    }
+
+    bool CheckPasportInBase(string CheckPasport){
+
+        vector<Client> persons = LoadPeopleInVector();
+
+        for (int i = 0; i < persons.size(); ++i) {
+
+            if(persons[i].Pasport == CheckPasport){
+                cout << "This ID pasport alredy in base! Check correct ID pasport!" << endl;
+                return false;
+            }
+
+        }
+
+        return true;
+
+    }
+
+    bool CheckNumberInBase(string CheckNumber){
+
+        vector<Client> persons = LoadPeopleInVector();
+
+        for (int i = 0; i < persons.size(); ++i) {
+
+            if(persons[i].Number == CheckNumber){
+                cout << "This ID number alredy in base! Choice other phone number!" << endl;
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+     vector<Client> LoadPeopleInVector(){
+        vector<Client> persons;
+        Client x;
+        string Path = "myFiles.txt";
+
+        fstream fin;
+
+        fin.open(Path);
+
+        while(!(fin.eof())){
+            fin >> x;
+            persons.push_back(x);
+        }
+
+        fin.close();
+
+        return persons;
+
+    }
+
+
 
     void SetClient() {
 
@@ -107,31 +284,32 @@ public:
         SetNumber();
     }
 
-    void AllTarif(){
+     void AllTarif(){
+
 
         cout << "Tarifs of own company:" << endl;
         Tarif* info;
         cout << endl << endl;
         info = new Drive5Tarif;
         cout << "Tarif " << info->NameOfTarif() << endl;
-        cout <<"Minutes amount: " <<info->MinBalance()  <<"\tInternet amount: " << info->MbBalance() << endl << endl << endl;
+        cout <<"Minutes amount: " <<info->MinBalance()  <<"\tInternet amount: " << info->MbBalance()  << "\tPrice: " << info->Balance()  << " byn" << endl << endl << endl;
         info = new PlusTarif;
         cout << "Tarif " <<info->NameOfTarif()<< endl;
-        cout <<"Minutes amount: "  << info->MinBalance()  <<"\tInternet amount: " << info->MbBalance() << endl << endl << endl;
+        cout <<"Minutes amount: "  << info->MinBalance()  <<"\tInternet amount: " << info->MbBalance() << "\tPrice: " << info->Balance()<< " byn"<<  endl << endl << endl;
         info = new Drive20Tarif;
         cout << "Tarif " <<info->NameOfTarif() << endl;
-        cout <<"Minutes amount: "  <<info->MinBalance()  <<"\tInternet amount: " << info->MbBalance() << endl << endl << endl;
+        cout <<"Minutes amount: "  <<info->MinBalance()  <<"\tInternet amount: " << info->MbBalance()  << "\tPrice: " << info->Balance() << " byn" << endl << endl << endl;
 
         info = new StudentTarif;
         cout << "Tarif "<< info->NameOfTarif() << endl;
-        cout <<"Minutes amount: "  <<info->MinBalance()  <<"\tInternet amount: " << info->MbBalance() << endl << endl << endl;
+        cout <<"Minutes amount: "  <<info->MinBalance()  <<"\tInternet amount: " << info->MbBalance()   << "\tPrice: " << info->Balance()<< " byn" << endl << endl << endl;
 
         info = new PensionerTarif;
         cout << "Tarif "<<info->NameOfTarif() << endl;
-        cout <<"Minutes amount: "  <<info->MinBalance()  <<"\tInternet amount: " << info->MbBalance() << endl << endl << endl;
+        cout <<" Minutes amount: "  <<info->MinBalance()  <<"\tInternet amount: " << info->MbBalance() << "\tPrice: " << info->Balance() << " byn" << endl << endl << endl;
+
+
     }
-
-
 
     void setTarif() {
         string tarifName;
@@ -142,50 +320,47 @@ public:
             cout << "Choice tarif:";
             cin >> tarifName;
 
-            if (!tarifName.compare("Plus")) {
+            if ( tarifName == "Plus") {
                 tarif = new PlusTarif();
                 NameTarif = "Plus";
-                SetBalance();
+
                 choice = 0;
 
-            } else if (!tarifName.compare("Drive20")) {
+            } else if (tarifName =="Drive20") {
                 tarif = new Drive20Tarif();
                 NameTarif = "Drive20";
-                SetBalance();
+
                 choice = 0;
 
-            } else if (!tarifName.compare("Drive5")) {
+            } else if (tarifName =="Drive5") {
                 tarif = new Drive5Tarif();
                 NameTarif = "Drive5";
-                SetBalance();
+
                 choice = 0;
 
-            } else if (!tarifName.compare("Student")) {
+            } else if (tarifName =="Student") {
                 tarif = new StudentTarif();
                 NameTarif = "Student";
-                SetBalance();
+
                 choice = 0;
 
-            } else if (!tarifName.compare("Pensioner")) {
+            } else if (tarifName =="Pensioner") {
                   tarif = new PensionerTarif();
                   NameTarif = "Pensioner";
-                  SetBalance();
+
                   choice = 0;
 
             } else {
                 tarif = nullptr;
                 cout << endl << "You entered incorrect tarif. Repeat choice tarif again!" << endl << endl;
                 NameTarif = "empty";
-
             }
-
         }
     }
 
     string GetPasport() {
         return Pasport;
     }
-
 
     void SetBalance() {
         BalanceAccount -= tarif->Balance();
@@ -209,8 +384,20 @@ public:
 
     void DepositBalance() {
         double summa;
-        cout << "Enter sum for deposit:";
-        cin >> summa;
+
+        while(true){
+            cout << "Enter sum for deposit:";
+            cin >> summa;
+
+            if(summa < 0){
+                cout << "You are entered negative deposit!\nRepeat again!" ;
+                continue;
+            }else{
+                break;
+            }
+
+        }
+
 
         BalanceAccount += summa;
     }
@@ -219,19 +406,6 @@ public:
 
         return BalanceAccount;
 
-    }
-
-    void SetNumber() {
-
-        while (1) {
-            cout << "Enter number with code:" << endl;
-            cin >> Number;
-            if ( numberValidation(Number)) {
-                break;
-            }else{
-                continue;
-            }
-        }
     }
 
     void GetClient() {
@@ -260,7 +434,7 @@ public:
     }
 
 
-    void WriteFile(Client person1) {
+     void WriteFile(Client person1) {
 
         string Path = "myFiles.txt";
 
@@ -268,13 +442,8 @@ public:
 
         fout.open(Path, ofstream::app);
 
-        if (!fout.is_open()) {
-            cout << "Error; File is not open";
-        } else {
+        fout << person1;
 
-            fout << person1;
-
-        }
         fout.close();
     }
 

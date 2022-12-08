@@ -3,6 +3,7 @@
 #include "Client.h"
 #include "Tarif.h"
 #include "MyException.h"
+#include "InCorrectIntInput.h"
 #include <stdlib.h>
 
 
@@ -17,56 +18,68 @@ public:
     void ForNewUser(){
 
         Client person1;
+        person1.CreateClient(person1);
+
         int choice = 100;
+
         while (choice != 0){
 
-            cout << "Menu for new client:" << endl;
-            cout << "1 - create" << endl;
-            cout << "2 - view client" << endl;
-            cout << "3 - change tarif" << endl;
-            cout << "4 - change number" << endl;
-            cout << "5 - view balance" << endl;
-            cout << "6 - deposit balance" << endl;
-            cout << "7 - save change in base and go to main menu" << endl;
-            cout << "0 - main menu" << endl;
 
+            while(1) {
 
-            try{
-                if(!(cin >> choice) )
-                    throw MyException();
+                cout << "Menu for new client:" << endl;
+
+                cout << "1 - view client" << endl;
+                cout << "2 - change tarif" << endl;
+                cout << "3 - change number" << endl;
+                cout << "4 - view balance" << endl;
+                cout << "5 - deposit balance" << endl;
+                cout << "6 - save change in base and go to main menu" << endl;
+                cout << "0 - main menu" << endl;
+
+                try{
+                    if(!(cin >> choice))
+                        throw InCorrectIntInput("Sorry, enter int!");
+                    break;
+                }
+                catch(InCorrectStringInput& ex){
+                    ex.show();
+                    rewind(stdin);
+                    cin.clear();
+                    continue;
+                }
+
             }
 
-            catch (const MyException& Ex){
-                MyException::TypeErrorInt();
-            }
 
             switch (choice) {
 
-                case 1:{person1.CreateClient(person1);break;}
-
-                case 2:
+                case 1:
                 {
                     PrintViewClient();
                     person1.GetClient();
                     break;
                 }
 
-                case 3:
+                case 2:
                 {
-                    AllTarif();
-                    person1.setTarif();
+                    CheckOnSameTarif(person1);
+                    person1.SetBalance();
                     break;
                 }
 
-                case 4:{person1.SetNumber();break;}
+                case 3:{person1.SetNumber();break;}
 
-                case 5:{cout << person1.GetBalance() << endl; break;}
+                case 4:{cout << person1.GetBalance() << endl; break;}
 
-                case 6:{person1.DepositBalance();break;}
+                case 5:{person1.DepositBalance();break;}
 
-                case 7:{
-                    person1.WriteFile(person1);
+                case 6:{
+
+                    if(CheckIsEmptyClient(person1))
+                       person1.WriteFile(person1);
                     choice = 0;
+
                     break;
                 }
 
@@ -98,30 +111,45 @@ public:
         }
 
         if(!(persons[index].GetPasport().compare(PasportID))){
-            cout << "You can continue!" << endl;
+            cout << "You are can continue!" << endl;
             PrintViewClient();
             persons[index].GetClient();
         }else{
-            cout << "You not in base!" << endl;
+            cout << "You are not in base!" << endl;
             choice = 0;
         }
 
 
-
-
         while (choice != 0){
 
-            cout << "Menu for old client:" << endl;
-            cout << "1 - view client" << endl;
-            cout << "2 - change tarif" << endl;
-            cout << "3 - change number" << endl;
-            cout << "4 - view balance" << endl;
-            cout << "5 - deposit balance" << endl;
-            cout << "6 - save changes and go to main menu" << endl;
-            cout << "7 - delete this account" << endl;
-            cout << "0 - main menu " << endl;
 
-            cin >> choice;
+            while(1) {
+
+                cout << "Menu for old client:" << endl;
+                cout << "1 - view client" << endl;
+                cout << "2 - change tarif" << endl;
+                cout << "3 - change number" << endl;
+                cout << "4 - view balance" << endl;
+                cout << "5 - deposit balance" << endl;
+                cout << "6 - save changes and go to main menu" << endl;
+                cout << "7 - delete this account" << endl;
+                cout << "0 - main menu " << endl;
+
+                try {
+                    if (!(cin >> choice))
+                        throw InCorrectIntInput("Sorry, enter int!");
+                    break;
+
+                }
+                catch (InCorrectStringInput &ex) {
+
+                    ex.show();
+                    rewind(stdin);
+                    cin.clear();
+                }
+
+            }
+
 
             switch (choice) {
 
@@ -133,9 +161,8 @@ public:
 
                 case 2:
                 {
-                    cout<< "Change tarif." << endl;
-                    AllTarif();
-                    persons[index].setTarif();
+                    CheckOnSameTarif(persons[index]);
+                    persons[index].SetBalance();
                     break;
                 }
 
@@ -207,26 +234,6 @@ public:
         persons.clear();
     }
 
-    vector<Client> LoadPeopleInVector(){
-        vector<Client> persons;
-        Client x;
-        string Path = "myFiles.txt";
-
-        fstream fin;
-
-        fin.open(Path);
-
-        while(!(fin.eof())){
-            fin >> x;
-            persons.push_back(x);
-        }
-
-        fin.close();
-
-        return persons;
-
-    }
-
     void WtiteFilesPersons(vector<Client> persons){
 
         string Path = "myFiles.txt";
@@ -245,6 +252,42 @@ public:
         persons.clear();
     }
 
+    bool CheckIsEmptyClient(Client person){
+
+        if(person.GetPasport() == "empty" && person.GetName() == "empty")
+            return false;
+
+        return true;
+    }
+
+    void CheckOnSameTarif(Client &person){
+
+        cout << endl << endl << "Change tarif." << endl;
+        cout << "Your tarif now:" << person.GetTarif() << endl;
+
+        string OldTarif = person.GetTarif();
+        string NowTatif =  person.GetTarif();
+
+        AllTarif();
+        person.setTarif();
+        NowTatif =  person.GetTarif();
+
+        while(1){
+            if(OldTarif != NowTatif)
+                break;
+
+            else{
+                cout << "You choice same tarif! Please, choice other tarif!" << endl;
+                AllTarif();
+                person.setTarif();
+                NowTatif =  person.GetTarif();
+                continue;
+            }
+        }
+
+
+
+    }
 
 };
 

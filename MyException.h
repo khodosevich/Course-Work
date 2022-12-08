@@ -9,9 +9,24 @@ class MyException:public exception{
 public:
 
 
-    static void TypeErrorInt(){
-        cout << endl << "Введен тип не Int.." << endl;
-        exit(1);
+public:
+    string message;
+
+    MyException() {
+        message = "Fatal error!";
+    }
+
+
+    MyException(string _msg)
+    {
+        message = _msg;
+    }
+
+    ~MyException() {}
+
+     void show()
+    {
+        cout << "Error: " << message << endl;
     }
 
 
