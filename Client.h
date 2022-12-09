@@ -7,12 +7,17 @@
 #include "StudentTarif.h"
 #include "PensionerTarif.h"
 #include <fstream>
-#include <iomanip>
-#include <vector>
 #include "ConstantsFile.h"
 #include "OtherFunctionality.h"
 #include "InCorrectStringInput.h"
 #include "InCorrectIntInput.h"
+#include "InCorrectOpenFiles.h"
+#include "InCorrectLengthPassword.h"
+
+#include <iomanip>
+#include <vector>
+
+
 using namespace std;
 
 
@@ -27,9 +32,10 @@ private:
     string Number;
     double BalanceAccount;
     string NameTarif;
+    string PasswordAccount;
 
 public:
-    Tarif *tarif{};
+    Tarif *tarif;
 
 
     Client() {
@@ -44,7 +50,6 @@ public:
     }
 
     ~Client() = default;
-
 
     void CreateClient(Client &person1) {
 
@@ -70,8 +75,12 @@ public:
 
     while(true) {
 
+        rewind(stdin);
+        cin.clear();
         cout << "Enter name:";
-        cin >> FirstName;
+       // cin >> FirstName;
+       //cin.ignore();
+        getline(cin,FirstName);
 
         try {
 
@@ -97,10 +106,16 @@ public:
 
     void SetLastName(){
 
+
         while(true) {
 
+            rewind(stdin);
+            cin.clear();
+
             cout << "Enter Lastname:";
-            cin >> LastName;
+           // cin.ignore();
+            getline(cin,LastName);
+//            cin >> LastName;
 
             try {
                 for (int i = 0; i < LastName.length(); i++) {
@@ -130,6 +145,8 @@ public:
             while(true) {
                 cout << "Enter age:";
 
+                rewind(stdin);
+                cin.clear();
                 try{
                     if(!(  cin >> Age ))
                         throw InCorrectIntInput("Sorry, enter int!");
@@ -163,6 +180,8 @@ public:
         cout << endl << CorrectPasport << endl;
         while (true) {
             cout << "Enter ID pasport:";
+            rewind(stdin);
+            cin.clear();
             cin >> Pasport;
 
             if (pasportValidation(Pasport)) {
@@ -177,9 +196,11 @@ public:
     void SetResidence(){
 
         while(true) {
+            rewind(stdin);
+            cin.clear();
             cout << "Enter place of residence:";
 
-            cin.ignore();//не замечает пробелов но в файл записывать не оч
+            //cin.ignore();//не замечает пробелов но в файл записывать не оч
             getline(cin, Residence);
 
             try {
@@ -210,6 +231,8 @@ public:
 
         while (true) {
             cout << "Enter number with code:" << endl;
+            rewind(stdin);
+            cin.clear();
             cin >> Number;
             if ( numberValidation(Number)) {
                 if(CheckNumberInBase(Number))
@@ -217,6 +240,38 @@ public:
             }else{
                 continue;
             }
+        }
+    }
+
+    void SetPassword(){
+
+        while (true) {
+            cout << "Choice password:";
+            rewind(stdin);
+            cin.clear();
+            cin >> PasswordAccount;
+
+
+            try {
+                for (int i = 0; i < PasswordAccount.length(); i++) {
+                    if (PasswordAccount[i] == ' ') {
+                        throw InCorrectStringInput("Enter password without space!");
+                    }
+                    if(PasswordAccount.length() < 8){
+                        throw InCorrectLengthPassword("Password should have 8 characters long!");
+                    }
+                }
+                break;
+            }
+            catch (InCorrectStringInput ex) {
+                ex.show();
+                continue;
+            }
+            catch (InCorrectLengthPassword ex) {
+                ex.show();
+                continue;
+            }
+
         }
     }
 
@@ -259,7 +314,21 @@ public:
 
         fstream fin;
 
-        fin.open(Path);
+         fin.open(Path);
+
+
+         while (true) {
+             try {
+                 if (!fin.is_open())
+                     throw InCorrectOpenFiles("Files error!");
+                 break;
+             }
+             catch (InCorrectOpenFiles& ex){
+                 ex.show();
+                 continue;
+             }
+         }
+
 
         while(!(fin.eof())){
             fin >> x;
@@ -272,14 +341,13 @@ public:
 
     }
 
-
-
     void SetClient() {
 
         SetName();
         SetLastName();
         SetAge();
         SetPasport();
+        SetPassword();
         SetResidence();
         SetNumber();
     }
@@ -362,6 +430,10 @@ public:
         return Pasport;
     }
 
+    string GetPassword(){
+        return PasswordAccount;
+    }
+
     void SetBalance() {
         BalanceAccount -= tarif->Balance();
     }
@@ -434,13 +506,25 @@ public:
     }
 
 
-     void WriteFile(Client person1) {
+    void WriteFile(Client person1) {
 
         string Path = "myFiles.txt";
 
         ofstream fout;
 
         fout.open(Path, ofstream::app);
+
+
+        try {
+            if (!fout.is_open())
+                throw InCorrectOpenFiles("Files is not open!");
+
+        }
+        catch (InCorrectOpenFiles& ex){
+            ex.show();
+            exit(1);
+        }
+
 
         fout << person1;
 
@@ -454,14 +538,14 @@ public:
 
 std::ostream& operator << (std::ostream &os, Client &p)
 {
-    os <<"\n"<< p.FirstName << " " << p.LastName << " " << p.Age << " " << p.Pasport << " " << p.Residence << " " << p.NameTarif<< " " << p.Number << " " << p.BalanceAccount;
+    os <<"\n"<< p.FirstName << " " << p.LastName << " " << p.Age << " " << p.Pasport <<" " << p.PasswordAccount << " " << p.Residence << " " << p.NameTarif<< " " << p.Number << " " << p.BalanceAccount;
 
     return os ;
 }
 
 std::istream& operator >> (std::istream& in, Client& p)
 {
-    in >> p.FirstName >> p.LastName >>  p.Age >> p.Pasport >> p.Residence >> p.NameTarif >> p.Number >> p.BalanceAccount;
+    in >> p.FirstName >> p.LastName >>  p.Age >> p.Pasport >> p.PasswordAccount >> p.Residence >> p.NameTarif >> p.Number >> p.BalanceAccount;
 
     return in;
 }

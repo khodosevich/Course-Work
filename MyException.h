@@ -7,10 +7,10 @@ using namespace std;
 class MyException:public exception{
 
 public:
-
+    string message;
 
 public:
-    string message;
+
 
     MyException() {
         message = "Fatal error!";

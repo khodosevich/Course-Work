@@ -3,9 +3,12 @@
 #include "Client.h"
 #include "Tarif.h"
 #include "User.h"
-#include <iostream>
 #include "MyException.h"
 #include "InCorrectIntInput.h"
+#include "OwnContainer.h"
+#include <iostream>
+
+
 using namespace std;
 
 class Admin:public User{
@@ -61,11 +64,7 @@ public:
 
             switch (choice) {
 
-                case 1: {
-                    PrintViewClient();
-                    ReadFileAdmin();
-                    break;
-                }
+                case 1: {ReadFileAdmin();break;}
                 case 2: {DeleteFileAdmin();break;}
                 case 3:{ReadFileAdminPasport();break;}
                 case 4:{ReadFileAdminNumber();break;}
@@ -82,6 +81,7 @@ public:
      void ReadFileAdmin(){
 
         Client x;
+        vector<Client>persons;
 
         string Path = "myFiles.txt";
 
@@ -89,13 +89,38 @@ public:
 
         fin.open(Path);
 
+         try {
+             if (!fin.is_open())
+                 throw InCorrectOpenFiles("Files is not open!");
+         }
+         catch (InCorrectOpenFiles& ex){
+             ex.show();
+             exit(1);
+         }
+
+
         while(!(fin.eof())){
             fin >> x;
-            x.GetClient();
+            if(x.GetPasport() == "empty")
+                continue;
+            persons.push_back(x);
         }
 
         fin.close();
-    }
+
+         if(!persons.empty()){
+             PrintViewClient();
+             for (int i = 0; i < persons.size(); ++i) {
+                 persons[i].GetClient();
+             }
+         }else{
+             cout << endl<< endl<< "In base 0 clients now!" << endl;
+         }
+
+         persons.clear();
+
+
+     }
 
      void ReadFileAdminPasport(){
 
@@ -110,7 +135,15 @@ public:
         fstream fin;
         fin.open(Path);
 
+         try {
+             if (!fin.is_open())
+                 throw InCorrectOpenFiles("Files is not open!");
 
+         }
+         catch (InCorrectOpenFiles& ex){
+             ex.show();
+             exit(1);
+         }
 
         while(!(fin.eof())){
             fin >> x;
@@ -124,11 +157,10 @@ public:
         if(!persons.empty()){
             PrintViewClient();
             for (int i = 0; i < persons.size(); ++i) {
-
                 persons[i].GetClient();
             }
         }else{
-            cout << "You are not in base!" << endl;
+            cout<< endl<< endl << "No this client in base!" << endl;
         }
 
         persons.clear();
@@ -148,6 +180,15 @@ public:
         fstream fin;
         fin.open(Path);
 
+         try {
+             if (!fin.is_open())
+                 throw InCorrectOpenFiles("Files is not open!");
+
+         }
+         catch (InCorrectOpenFiles& ex){
+             ex.show();
+             exit(1);
+         }
 
         while(!(fin.eof())){
             fin >> x;
@@ -166,7 +207,7 @@ public:
                  persons[i].GetClient();
              }
          }else{
-             cout << "You are not in base!" << endl;
+             cout << endl << endl << "No this client in base!" << endl;
          }
 
          persons.clear();
@@ -186,7 +227,15 @@ public:
         fstream fin;
         fin.open(Path);
 
+         try {
+             if (!fin.is_open())
+                 throw InCorrectOpenFiles("Files is not open!");
 
+         }
+         catch (InCorrectOpenFiles& ex){
+             ex.show();
+             exit(1);
+         }
 
 
         while(!(fin.eof())){
@@ -205,7 +254,7 @@ public:
                  persons[i].GetClient();
              }
          }else{
-             cout << "You are not in base!" << endl;
+             cout << endl << endl << "No this client in base!" << endl;
          }
 
          persons.clear();
@@ -225,7 +274,15 @@ public:
         fstream fin;
         fin.open(Path);
 
+        try {
+            if (!fin.is_open())
+                throw InCorrectOpenFiles("Files is not open!");
 
+        }
+        catch (InCorrectOpenFiles& ex){
+            ex.show();
+            exit(1);
+        }
 
 
         while(!(fin.eof())){
@@ -265,20 +322,49 @@ public:
         fstream fin;
         fin.open(Path);
 
+         try {
+             if (!fin.is_open())
+                 throw InCorrectOpenFiles("Files is not open!");
+         }
+         catch (InCorrectOpenFiles& ex){
+             ex.show();
+             exit(1);
+         }
+
+         int count = 0;
         while(!(fin.eof())){
             fin >> x;
             if(x.GetPasport() == PasportID){
+                count += 1;
                 continue;
+
             }else{
                 persons.push_back(x);
             }
         }
         fin.close();
 
+        if(count == 0){
+            cout << endl<< endl << "No this client in base" << endl;
+        }
+        else
+          cout << endl<< endl << "Was delete " << count << "clients." << endl;
 
         fstream fout;
 
         fout.open(Path, ios::trunc | ios::out | ios::in);
+
+         try {
+             if (!fout.is_open())
+                 throw InCorrectOpenFiles("Files is not open!");
+
+         }
+         catch (InCorrectOpenFiles& ex){
+             ex.show();
+             exit(1);
+         }
+
+
 
         for (int i = 0; i < persons.size(); ++i) {
 

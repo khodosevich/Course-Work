@@ -4,6 +4,8 @@
 
 class InCorrectOpenFiles:public MyException {
 
+public:
+
     InCorrectOpenFiles(string message){
 
         this->message = message;
