@@ -19,6 +19,7 @@ public:
 
     void ForNewUser(){
 
+
         Client person1;
         person1.CreateClient(person1);
 
@@ -65,19 +66,20 @@ public:
 
                 case 2:
                 {
+                    system("clear");
                     CheckOnSameTarif(person1);
                     person1.SetBalance();
                     break;
                 }
 
-                case 3:{person1.SetNumber();break;}
+                case 3:{ system("clear");person1.SetNumber();break;}
 
                 case 4:{cout <<"Your balance:"<< person1.GetBalance() << " byn" << endl; break;}
 
-                case 5:{person1.DepositBalance();break;}
+                case 5:{ system("clear");person1.DepositBalance();break;}
 
                 case 6:{
-
+                    system("clear");
                     if(CheckIsEmptyClient(person1))
                        person1.WriteFile(person1);
                     choice = 0;
@@ -92,7 +94,7 @@ public:
     }
 
     void ForBasicUser(){
-
+        system("clear");
 
         vector<Client> persons = LoadPeopleInVector();
 
@@ -101,14 +103,12 @@ public:
         int index;
         int choice = 100;
 
-        cout << "Enter your pasport ID:";
+        cout << "| Enter your pasport ID:";
         cin >> PasportID;
         rewind(stdin);
         cin.clear();
-        cout << "Choice password:";
+        cout << "Enter password:";
         cin >> CheckPassword;
-
-
 
 
         for (int i = 0; i < persons.size(); ++i) {
@@ -126,7 +126,7 @@ public:
                     persons[index].GetClient();
                 }
             } else {
-                cout << "You сant continue";
+                cout << endl << endl << "You entered incorrect passport or password";
                 choice = 0;
             }
         }
@@ -164,6 +164,7 @@ public:
             switch (choice) {
 
                 case 1:{
+
                     PrintViewClient();
                     persons[index].GetClient();
                     break;
@@ -171,6 +172,7 @@ public:
 
                 case 2:
                 {
+                    system("clear");
                     CheckOnSameTarif(persons[index]);
                     persons[index].SetBalance();
                     break;
@@ -178,22 +180,26 @@ public:
 
                 case 3:
                 {
+                    system("clear");
                     cout << "Change number." << endl;
                     persons[index].SetNumber();
                     break;
                 }
 
                 case 4:{
-                    cout << persons[index].GetBalance() << endl;
+                    system("clear");
+                    cout << endl << endl <<"Your balance:"<< persons[index].GetBalance() << " byn" << endl << endl;
                     break;
                 }
 
                 case 5:{
+                    system("clear");
                     persons[index].DepositBalance();
                     break;
                 }
 
                 case 6:{
+                    system("clear");
                     WtiteFilesPersons(persons);
                     choice = 0;
                     break;
@@ -201,6 +207,7 @@ public:
 
 
                 case 7:{
+                    system("clear");
                     DeleteThisPerson(persons[index]);
                     choice = 0;
                     break;
@@ -220,7 +227,7 @@ public:
 
         vector<Client> persons = LoadPeopleInVector();
 
-        string Path = "myFiles.txt";
+        string Path = "Clients.txt";
 
         fstream fout;
 
@@ -255,7 +262,7 @@ public:
 
     void WtiteFilesPersons(vector<Client> persons){
 
-        string Path = "myFiles.txt";
+        string Path = "Clients.txt";
 
         fstream fin;
 

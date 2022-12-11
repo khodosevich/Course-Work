@@ -27,9 +27,13 @@ public:
         cout << endl << endl << "Enter password for admin:" ;
         cin >> _password;
 
-        if(!(Password.compare(_password)))
+        if(Password == _password){
+            system("clear");
             ForAdmin();
+        }
+
         else cout << endl << "Incorrect password!!! You are not admin. \n Choice other operation!" << endl << endl;
+
 
     }
 
@@ -40,6 +44,7 @@ public:
         while (choice != 0) {
 
             while (1) {
+
                 cout << endl << endl << "Menu for admin:" << endl;
                 cout << "1 - view all clients" << endl;
                 cout << "2 - Delete client by pasport" << endl;
@@ -50,27 +55,28 @@ public:
                 cout << "0 - main menu" << endl;
 
                 try {
+                    rewind(stdin);
+                    cin.clear();
                     if (!(cin >> choice))
                         throw InCorrectIntInput("Sorry, enter int!");
                     break;
                 }
                 catch (InCorrectIntInput &ex) {
                     ex.show();
-                    rewind(stdin);
-                    cin.clear();
+
                     continue;
                 }
             }
 
             switch (choice) {
 
-                case 1: {ReadFileAdmin();break;}
-                case 2: {DeleteFileAdmin();break;}
-                case 3:{ReadFileAdminPasport();break;}
-                case 4:{ReadFileAdminNumber();break;}
-                case 5:{ReadFileAdminLastName();break;}
-                case 6:{ReadFileAdminTarif();break;}
-                case 0:{choice = 0;break;}
+                case 1: { system("clear");ReadFileAdmin();break;}
+                case 2: { system("clear");DeleteFileAdmin();break;}
+                case 3:{ system("clear");ReadFileAdminPasport();break;}
+                case 4:{ system("clear");ReadFileAdminNumber();break;}
+                case 5:{ system("clear");ReadFileAdminLastName();break;}
+                case 6:{ system("clear");ReadFileAdminTarif();break;}
+                case 0:{ system("clear");choice = 0;break;}
 
                 default:{continue;}
             }
@@ -81,9 +87,10 @@ public:
      void ReadFileAdmin(){
 
         Client x;
-        vector<Client>persons;
 
-        string Path = "myFiles.txt";
+        List<Client> persons;
+
+        string Path = "Clients.txt";
 
         fstream fin;
 
@@ -108,9 +115,9 @@ public:
 
         fin.close();
 
-         if(!persons.empty()){
+         if(!persons.isEmpty()){
              PrintViewClient();
-             for (int i = 0; i < persons.size(); ++i) {
+             for (int i = 0; i < persons.getSize(); ++i) {
                  persons[i].GetClient();
              }
          }else{
@@ -131,7 +138,7 @@ public:
         cout << "Enter Pasport for search:";
         cin >> Indificator;
 
-        string Path = "myFiles.txt";
+        string Path = "Clients.txt";
         fstream fin;
         fin.open(Path);
 
@@ -176,7 +183,7 @@ public:
         cout << "Enter number for search:";
         cin >> Indificator;
 
-        string Path = "myFiles.txt";
+        string Path = "Clients.txt";
         fstream fin;
         fin.open(Path);
 
@@ -223,7 +230,7 @@ public:
         cout << "Enter lastname for search:";
         cin >> Indificator;
 
-        string Path = "myFiles.txt";
+        string Path = "Clients.txt";
         fstream fin;
         fin.open(Path);
 
@@ -270,7 +277,7 @@ public:
         cout << "Enter tarif for search:";
         cin >> Indificator;
 
-        string Path = "myFiles.txt";
+        string Path = "Clients.txt";
         fstream fin;
         fin.open(Path);
 
@@ -318,7 +325,7 @@ public:
 
         Client x;
 
-        string Path = "myFiles.txt";
+        string Path = "Clients.txt";
         fstream fin;
         fin.open(Path);
 
@@ -348,7 +355,7 @@ public:
             cout << endl<< endl << "No this client in base" << endl;
         }
         else
-          cout << endl<< endl << "Was delete " << count << "clients." << endl;
+          cout << endl<< endl << "Client was deleted!" << endl;
 
         fstream fout;
 

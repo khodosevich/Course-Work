@@ -24,5 +24,4 @@ const string validCodes[] = {"29", "33", "44", "25"};
 const string ValidCountrySerial[] = {"MC" ,"AB", "BM", "HB" , "KH", "MP", "KB" };
 #define WrongCountrySerial   "You entered wrong serial code! ( Good serial code: АВ ВМ НВ КН МР МС КВ )"
 
-
 #endif //KURSACH2_CONSTANTSFILE_H

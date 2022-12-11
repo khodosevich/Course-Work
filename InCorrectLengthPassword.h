@@ -5,7 +5,7 @@
 class InCorrectLengthPassword:public MyException{
 
 public:
-    InCorrectLengthPassword(string message){
+    InCorrectLengthPassword(string message) {
 
         this->message = message;
 

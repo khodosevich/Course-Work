@@ -161,7 +161,7 @@ public:
 
             }
 
-            if(Age <= 0){
+            if(Age <= 12){
                 cout << "You are entered negative age. \nRepeat again!" << endl;
                 continue;
             }else if(Age > 100){
@@ -310,7 +310,7 @@ public:
      vector<Client> LoadPeopleInVector(){
         vector<Client> persons;
         Client x;
-        string Path = "myFiles.txt";
+        string Path = "Clients.txt";
 
         fstream fin;
 
@@ -508,7 +508,7 @@ public:
 
     void WriteFile(Client person1) {
 
-        string Path = "myFiles.txt";
+        string Path = "Clients.txt";
 
         ofstream fout;
 

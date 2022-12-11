@@ -26,7 +26,7 @@ public:
 
      void show()
     {
-        cout << "Error: " << message << endl;
+        cout << endl << endl << "Error: " << message << endl << endl;
     }
 
 
