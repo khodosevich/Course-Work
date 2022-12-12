@@ -23,4 +23,4 @@ public:
 };
 
 
-#endif //KURSACH2_TARIF_H
+#endif

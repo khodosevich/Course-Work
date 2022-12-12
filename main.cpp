@@ -7,6 +7,7 @@ using namespace std;
 
 int main() {
 
+    system("clear");
 
     int choice = 100  , x ;
 
@@ -50,7 +51,7 @@ int main() {
                     while(1) {
 
                         cout << endl << endl << "Menu user:" << endl;
-                        cout << "1 - client" << endl;
+                        cout << "1 - log in account" << endl;
                         cout << "2 - create new client" << endl;
                         cout << "0 - main menu" << endl;
 

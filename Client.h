@@ -27,29 +27,31 @@ private:
     string FirstName;
     string LastName;
     int Age;
-    string Pasport;
+    string Passport;
     string Residence;
     string Number;
     double BalanceAccount;
     string NameTarif;
     string PasswordAccount;
+    Tarif *tarif;
+
 
 public:
-    Tarif *tarif;
+
 
 
     Client() {
         FirstName = "empty";
         LastName = "empty";
         Age = 0;
-        Pasport = "empty";
+        Passport = "empty";
         Residence = "empty";
         NameTarif = "empty";
         Number = "empty";
         BalanceAccount = 0;
     }
 
-    ~Client() = default;
+    ~Client() {};
 
     void CreateClient(Client &person1) {
 
@@ -182,10 +184,10 @@ public:
             cout << "Enter ID pasport:";
             rewind(stdin);
             cin.clear();
-            cin >> Pasport;
+            cin >> Passport;
 
-            if (pasportValidation(Pasport)) {
-                if(CheckPasportInBase(Pasport))
+            if (pasportValidation(Passport)) {
+                if(CheckPasportInBase(Passport))
                      break;
             }else{
                 continue;
@@ -281,7 +283,7 @@ public:
 
         for (int i = 0; i < persons.size(); ++i) {
 
-            if(persons[i].Pasport == CheckPasport){
+            if(persons[i].Passport == CheckPasport){
                 cout << "This ID pasport alredy in base! Check correct ID pasport!" << endl;
                 return false;
             }
@@ -426,8 +428,8 @@ public:
         }
     }
 
-    string GetPasport() {
-        return Pasport;
+    string GetPassport() {
+        return Passport;
     }
 
     string GetPassword(){
@@ -459,17 +461,34 @@ public:
 
         while(true){
             cout << "Enter sum for deposit:";
-            cin >> summa;
 
-            if(summa < 0){
-                cout << "You are entered negative deposit!\nRepeat again!" ;
-                continue;
-            }else{
+            rewind(stdin);
+            cin.clear();
+            try{
+                if(!( cin >> summa))
+                    throw InCorrectIntInput("Sorry, enter int!");
+
+                if(summa < 0) {
+                    throw InCorrectIntInput("You are entered negative deposit!\nRepeat again!");
+                }
+
+                if(summa > 100000) {
+                    throw InCorrectIntInput("Amount you entered exceeds the limit!");
+                }
+
+
                 break;
             }
+            catch(InCorrectIntInput &ex){
+                ex.show();
+                rewind(stdin);
+                cin.clear();
+                continue;
+            }
+
+
 
         }
-
 
         BalanceAccount += summa;
     }
@@ -485,7 +504,7 @@ public:
         cout
                 << "| " << setw(26) << left << this->FirstName + " " + this->LastName
                 << "| " << setw(4) << left << this->Age
-                << "| " << setw(10) << left << this->Pasport
+                << "| " << setw(10) << left << this->Passport
                 << "| " << setw(25) << left << this->Residence
                 << "| " << setw(14) << left << this->Number
                 << "| " << setw(10) << left << this->NameTarif
@@ -538,17 +557,17 @@ public:
 
 std::ostream& operator << (std::ostream &os, Client &p)
 {
-    os <<"\n"<< p.FirstName << " " << p.LastName << " " << p.Age << " " << p.Pasport <<" " << p.PasswordAccount << " " << p.Residence << " " << p.NameTarif<< " " << p.Number << " " << p.BalanceAccount;
+    os <<"\n"<< p.FirstName << " " << p.LastName << " " << p.Age << " " << p.Passport <<" " << p.PasswordAccount << " " << p.Residence << " " << p.NameTarif<< " " << p.Number << " " << p.BalanceAccount;
 
     return os ;
 }
 
 std::istream& operator >> (std::istream& in, Client& p)
 {
-    in >> p.FirstName >> p.LastName >>  p.Age >> p.Pasport >> p.PasswordAccount >> p.Residence >> p.NameTarif >> p.Number >> p.BalanceAccount;
+    in >> p.FirstName >> p.LastName >>  p.Age >> p.Passport >> p.PasswordAccount >> p.Residence >> p.NameTarif >> p.Number >> p.BalanceAccount;
 
     return in;
 }
 
 
-#endif //KURSACH2_CLIENT_H
+#endif

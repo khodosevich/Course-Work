@@ -2,7 +2,7 @@
 #define KURSACH2_INCORRECTSTRINGINPUT_H
 #include "MyException.h"
 
-class InCorrectStringInput:public MyException {
+class InCorrectStringInput : public MyException {
 
 public:
 
@@ -14,4 +14,4 @@ public:
 
 };
 
-#endif //KURSACH2_INCORRECTSTRINGINPUT_H
+#endif

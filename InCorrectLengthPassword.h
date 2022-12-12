@@ -2,7 +2,7 @@
 #define KURSACH2_INCORRECTLENGTHPASSWORD_H
 #include "MyException.h"
 
-class InCorrectLengthPassword:public MyException{
+class InCorrectLengthPassword: public MyException {
 
 public:
     InCorrectLengthPassword(string message) {
@@ -13,4 +13,4 @@ public:
 
 };
 
-#endif //KURSACH2_INCORRECTLENGTHPASSWORD_H
+#endif

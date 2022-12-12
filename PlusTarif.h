@@ -38,8 +38,6 @@ public:
     }
 
 
-
-
 };
 
 #endif //KURSACH2_PLUSTARIF_H

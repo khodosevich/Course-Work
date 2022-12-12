@@ -2,7 +2,7 @@
 #define KURSACH2_INCORRECTOPENFILES_H
 #include "MyException.h"
 
-class InCorrectOpenFiles:public MyException {
+class InCorrectOpenFiles : public MyException {
 
 public:
 
@@ -14,4 +14,4 @@ public:
 
 };
 
-#endif //KURSACH2_INCORRECTOPENFILES_H
+#endif

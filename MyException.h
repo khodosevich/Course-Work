@@ -4,7 +4,7 @@
 #include <iostream>
 using namespace std;
 
-class MyException:public exception{
+class MyException{
 
 public:
     string message;
@@ -32,4 +32,4 @@ public:
 
 };
 
-#endif //KURSACH2_MYEXCEPTION_H
+#endif

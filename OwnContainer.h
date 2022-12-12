@@ -4,7 +4,6 @@
 #include <iostream>
 using namespace std;
 
-#include<iostream>
 
 using namespace std;
 
@@ -18,7 +17,6 @@ public:
     void push_back(T data);
     int getSize();
     T& operator[](const int index);
-    T get();
     void clear();
     bool isEmpty();
 
@@ -123,4 +121,4 @@ List<T>::~List() {
 }
 
 
-#endif //KURSACH2_OWNCONTAINER_H
+#endif

@@ -11,15 +11,15 @@
 
 using namespace std;
 
-class Admin:public User{
+class Admin: public User {
 
 private:
     string Password = "admin1";
 
 public:
 
-    Admin()= default;
-    ~Admin()= default;;
+    Admin(){};
+    ~Admin(){};
 
     void CheckAdmin(){
 
@@ -47,8 +47,8 @@ public:
 
                 cout << endl << endl << "Menu for admin:" << endl;
                 cout << "1 - view all clients" << endl;
-                cout << "2 - Delete client by pasport" << endl;
-                cout << "3 - Find user by ID" << endl;
+                cout << "2 - Delete client by passport" << endl;
+                cout << "3 - Find user by Passport" << endl;
                 cout << "4 - Find user by Number" << endl;
                 cout << "5 - Find user by Lastname" << endl;
                 cout << "6 - Find user by tarif" << endl;
@@ -98,7 +98,7 @@ public:
 
          try {
              if (!fin.is_open())
-                 throw InCorrectOpenFiles("Files is not open!");
+                 throw InCorrectOpenFiles("Files is not opened!");
          }
          catch (InCorrectOpenFiles& ex){
              ex.show();
@@ -108,7 +108,7 @@ public:
 
         while(!(fin.eof())){
             fin >> x;
-            if(x.GetPasport() == "empty")
+            if(x.GetPassport() == "empty")
                 continue;
             persons.push_back(x);
         }
@@ -154,8 +154,8 @@ public:
 
         while(!(fin.eof())){
             fin >> x;
-            if( x.GetPasport() == Indificator){
-                persons.push_back(x);
+            if( x.GetPassport() == Indificator){
+
             }
         }
 
@@ -167,7 +167,7 @@ public:
                 persons[i].GetClient();
             }
         }else{
-            cout<< endl<< endl << "No this client in base!" << endl;
+            cout<< endl<< endl << "There is no this client in base!" << endl;
         }
 
         persons.clear();
@@ -189,7 +189,7 @@ public:
 
          try {
              if (!fin.is_open())
-                 throw InCorrectOpenFiles("Files is not open!");
+                 throw InCorrectOpenFiles("Files is not opened!");
 
          }
          catch (InCorrectOpenFiles& ex){
@@ -214,7 +214,7 @@ public:
                  persons[i].GetClient();
              }
          }else{
-             cout << endl << endl << "No this client in base!" << endl;
+             cout << endl << endl << "There is no this client in base!" << endl;
          }
 
          persons.clear();
@@ -236,7 +236,7 @@ public:
 
          try {
              if (!fin.is_open())
-                 throw InCorrectOpenFiles("Files is not open!");
+                 throw InCorrectOpenFiles("Files is not opened!");
 
          }
          catch (InCorrectOpenFiles& ex){
@@ -283,7 +283,7 @@ public:
 
         try {
             if (!fin.is_open())
-                throw InCorrectOpenFiles("Files is not open!");
+                throw InCorrectOpenFiles("Files is not opened!");
 
         }
         catch (InCorrectOpenFiles& ex){
@@ -308,7 +308,7 @@ public:
                 persons[i].GetClient();
             }
         }else{
-            cout<< endl << endl << "Are not this tarif in base!" << endl << endl;
+            cout<< endl << endl << "There is no this tarif in base!" << endl << endl;
         }
 
         persons.clear();
@@ -320,7 +320,7 @@ public:
         vector<Client> persons;
 
         string PasportID;
-        cout << "Enter pasport ID for delete:";
+        cout << "Enter pasport  for delete:";
         cin >> PasportID;
 
         Client x;
@@ -341,7 +341,7 @@ public:
          int count = 0;
         while(!(fin.eof())){
             fin >> x;
-            if(x.GetPasport() == PasportID){
+            if(x.GetPassport() == PasportID){
                 count += 1;
                 continue;
 
@@ -386,4 +386,4 @@ public:
 
 };
 
-#endif //KURSACH2_ADMIN_H
+#endif

@@ -9,7 +9,7 @@
 
 
 
-class User: public Client{
+class User: public Client {
 
 
 public:
@@ -103,7 +103,7 @@ public:
         int index;
         int choice = 100;
 
-        cout << "| Enter your pasport ID:";
+        cout << "Enter your pasport ID:";
         cin >> PasportID;
         rewind(stdin);
         cin.clear();
@@ -112,16 +112,16 @@ public:
 
 
         for (int i = 0; i < persons.size(); ++i) {
-            if( persons[i].GetPasport() == PasportID) {
+            if( persons[i].GetPassport() == PasportID) {
                 if (persons[i].GetPassword() == CheckPassword)
                     index = i;
             }
         }
 
         if(!persons.empty()) {
-            if (persons[index].GetPasport() == PasportID) {
+            if (persons[index].GetPassport() == PasportID) {
                 if (persons[index].GetPassword() == CheckPassword) {
-                    cout << "You are can continue!" << endl;
+                    cout << "You can continue!" << endl;
                     PrintViewClient();
                     persons[index].GetClient();
                 }
@@ -150,10 +150,10 @@ public:
                     rewind(stdin);
                     cin.clear();
                     if (!(cin >> choice))
-                        throw MyException("Sorry, enter int!");
+                        throw InCorrectIntInput("Sorry, enter int!");
                     break;
                 }
-                catch (MyException &ex) {
+                catch (InCorrectIntInput &ex) {
                     ex.show();
                     continue;
                 }
@@ -247,7 +247,7 @@ public:
 
         for (int i = 0; i < persons.size(); ++i) {
 
-            if(persons[i].GetPasport() != personDelete.GetPasport()){
+            if(persons[i].GetPassport() != personDelete.GetPassport()){
                  fout << persons[i];
             }
             else{
@@ -290,7 +290,7 @@ public:
 
     bool CheckIsEmptyClient(Client person){
 
-        if(person.GetPasport() == "empty" && person.GetName() == "empty")
+        if(person.GetPassport() == "empty" && person.GetName() == "empty")
             return false;
 
         return true;
@@ -327,4 +327,4 @@ public:
 
 };
 
-#endif //KURSACH2_USER_H
+#endif
