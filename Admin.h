@@ -131,7 +131,7 @@ public:
 
      void ReadFileAdminPasport(){
 
-        vector<Client> persons;
+
         Client x;
         string Indificator;
 
@@ -152,31 +152,29 @@ public:
              exit(1);
          }
 
+         bool isUsage = false;
         while(!(fin.eof())){
             fin >> x;
             if( x.GetPassport() == Indificator){
-
+                PrintViewClient();
+                x.GetClient();
+                isUsage = true;
             }
         }
 
          fin.close();
 
-        if(!persons.empty()){
-            PrintViewClient();
-            for (int i = 0; i < persons.size(); ++i) {
-                persons[i].GetClient();
-            }
-        }else{
-            cout<< endl<< endl << "There is no this client in base!" << endl;
-        }
+        if(!isUsage)
+            cout << endl << endl << "There is no this client in base!" << endl;
 
-        persons.clear();
+
+
 
     }
 
      void ReadFileAdminNumber(){
 
-        vector<Client> persons;
+
         Client x;
         string Indificator;
 
@@ -197,27 +195,20 @@ public:
              exit(1);
          }
 
+         bool isUsage = false;
         while(!(fin.eof())){
             fin >> x;
             if(x.GetNumber() == Indificator){
-                persons.push_back(x);
+                isUsage = true;
+                PrintViewClient();
+               x.GetClient();
             }
         }
 
         fin.close();
 
-         if(!persons.empty()){
-             PrintViewClient();
-             for (int i = 0; i < persons.size(); ++i) {
-
-
-                 persons[i].GetClient();
-             }
-         }else{
+         if(!isUsage)
              cout << endl << endl << "There is no this client in base!" << endl;
-         }
-
-         persons.clear();
 
     }
 

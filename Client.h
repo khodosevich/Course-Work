@@ -181,7 +181,7 @@ public:
 
         cout << endl << CorrectPasport << endl;
         while (true) {
-            cout << "Enter ID pasport:";
+            cout << "Enter passport:";
             rewind(stdin);
             cin.clear();
             cin >> Passport;
@@ -301,7 +301,7 @@ public:
         for (int i = 0; i < persons.size(); ++i) {
 
             if(persons[i].Number == CheckNumber){
-                cout << "This ID number alredy in base! Choice other phone number!" << endl;
+                cout << "This number alredy in base! Choice other phone number!" << endl;
                 return false;
             }
         }
@@ -344,7 +344,6 @@ public:
     }
 
     void SetClient() {
-
         SetName();
         SetLastName();
         SetAge();

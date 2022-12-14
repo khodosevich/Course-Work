@@ -98,7 +98,7 @@ public:
 
         vector<Client> persons = LoadPeopleInVector();
 
-        string PasportID,CheckPassword;
+        string PasportID , CheckPassword;
 
         int index;
         int choice = 100;
@@ -251,7 +251,14 @@ public:
                  fout << persons[i];
             }
             else{
-                cout << endl<< endl <<"Clients was delete." << endl;
+                if(persons[i].GetBalance() < 0){
+                    fout << persons[i];
+                    cout << endl<< endl << "You cant delete this account because balance negative! " << endl<< endl;
+                }
+                else{
+                    cout << endl<< endl <<"Clients was delete." << endl;
+                }
+
             }
 
         }

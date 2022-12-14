@@ -11,7 +11,7 @@ using namespace std;
 const string ValidCountryCode = "+375";
 
 #define CorrectNumber "+375(25/29/33/44)XXXXXXX"
-#define CorrectPasport "Correct enter pasport: АВ/ВМ/НВ/КН/МР/МС/КВ XXXXXXX"
+#define CorrectPasport "Correct enter pasport: АВ/ВМ/НВ/КН/МР/МС/КВXXXXXXX"
 
 #define WrongCountryCode "You entered incorrect code. +375xxxxxxxxx"
 const string validCodes[] = {"29", "33", "44", "25"};
